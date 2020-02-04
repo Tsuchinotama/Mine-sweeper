@@ -1,7 +1,9 @@
 package demineur;
 
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import javax.swing.*;
 
 
@@ -12,6 +14,7 @@ public class BoutonCase extends JButton implements MouseListener {
     private boolean caseMinee;
     private boolean revelee;
     private int lin, col;
+    private ImageIcon mine = new ImageIcon(this.getClass().getResource("mine.jpg"));
     
     public BoutonCase(int lin, int col,
             boolean[][] casesMinees, int[][] nbBombesVoisines) {
@@ -22,36 +25,11 @@ public class BoutonCase extends JButton implements MouseListener {
         this.caseMinee = casesMinees[lin][col];
         this.nbMinesVoisines = nbBombesVoisines[lin][col];
         this.pointInterrogation = false;
-        ImageIcon imageMine = new ImageIcon("mine.jpg");
         addMouseListener(this);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-//        BoutonCase caseCliquee = (BoutonCase) e.getSource();
-//        if (e.getButton() == MouseEvent.BUTTON1) {
-//            if (!caseCliquee.revelee) {
-//                if (caseCliquee.caseMinee) {
-//                    this.setIcon(this.imageMine);
-//                }
-//                else {
-//                    this.setText("" + this.nbMinesVoisines);
-//                }
-//            }
-//        }
-//        else {
-//            if (e.getButton() == MouseEvent.BUTTON3 && !caseCliquee.revelee) {
-//                if (this.pointInterrogation) {
-//                    this.setText("?");
-//                }
-//                else {
-//                    this.setText("");
-//                }  
-//                this.pointInterrogation = ! this.pointInterrogation;
-//            }
-//        }
-//        validate();
-//        revalidate();
     }
 
     @Override
@@ -60,11 +38,15 @@ public class BoutonCase extends JButton implements MouseListener {
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (!caseCliquee.revelee) {
                 if (caseCliquee.caseMinee) {
-                    this.setText("X");
+                    Image img = mine.getImage() ;
+                    Image newimg = img.getScaledInstance( 50, 50,  java.awt.Image.SCALE_SMOOTH ) ;  
+                    mine = new ImageIcon( newimg );
+                    this.setIcon(mine);
                 }
                 else {
                     this.setText("" + this.nbMinesVoisines);
                 }
+                caseCliquee.revelee = true ;
             }
         }
         else {
