@@ -3,7 +3,6 @@ package demineur;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import javax.swing.*;
 
 
@@ -11,10 +10,12 @@ public class BoutonCase extends JButton implements MouseListener {
     
     private int nbMinesVoisines;
     private boolean pointInterrogation;
+    private boolean flagged;
     private boolean caseMinee;
     private boolean revelee;
     private int lin, col;
-    private ImageIcon mine = new ImageIcon(this.getClass().getResource("mine.jpg"));
+    private ImageIcon mine = new ImageIcon(this.getClass().getResource("mine.gif"));
+    private ImageIcon flag = new ImageIcon(this.getClass().getResource("flag.gif"));
     
     public BoutonCase(int lin, int col,
             boolean[][] casesMinees, int[][] nbBombesVoisines) {
@@ -25,6 +26,8 @@ public class BoutonCase extends JButton implements MouseListener {
         this.caseMinee = casesMinees[lin][col];
         this.nbMinesVoisines = nbBombesVoisines[lin][col];
         this.pointInterrogation = false;
+        this.flagged = false;
+        
         addMouseListener(this);
     }
 
@@ -36,8 +39,8 @@ public class BoutonCase extends JButton implements MouseListener {
     public void mousePressed(MouseEvent e) {
         BoutonCase caseCliquee = (BoutonCase) e.getSource();
         if (e.getButton() == MouseEvent.BUTTON1) {
-            if (!caseCliquee.revelee) {
-                if (caseCliquee.caseMinee) {
+            if (!this.revelee && !this.flagged) {
+                if (this.caseMinee) {
                     Image img = mine.getImage() ;
                     Image newimg = img.getScaledInstance( 50, 50,  java.awt.Image.SCALE_SMOOTH ) ;  
                     mine = new ImageIcon( newimg );
@@ -50,14 +53,25 @@ public class BoutonCase extends JButton implements MouseListener {
             }
         }
         else {
-            if (e.getButton() == MouseEvent.BUTTON3 && !caseCliquee.revelee) {
-                if (this.pointInterrogation) {
-                    this.setText("?");
+            if (e.getButton() == MouseEvent.BUTTON3 && !this.revelee) {
+                if (!this.pointInterrogation && !this.flagged) {
+                    Image img = flag.getImage() ;
+                    Image newimg = img.getScaledInstance( 50, 50,  java.awt.Image.SCALE_SMOOTH ) ;  
+                    flag = new ImageIcon( newimg );
+                    this.setIcon(flag);
+                    this.flagged = true ;
                 }
-                else {
-                    this.setText("");
+                else if (this.flagged) {
+                    this.setIcon(null);
+                    this.setText("?");
+                    this.pointInterrogation = true;
+                    this.flagged = false ;
                 }  
-                this.pointInterrogation = ! this.pointInterrogation;
+                else if (this.pointInterrogation) {
+                    this.setText("");
+                    this.pointInterrogation = false;
+                }
+                
             }
         }
         validate();
