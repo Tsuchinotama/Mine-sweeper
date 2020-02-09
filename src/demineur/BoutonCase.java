@@ -5,20 +5,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 
-
 public class BoutonCase extends JButton implements MouseListener {
-    
+
     private int nbMinesVoisines;
     private boolean pointInterrogation;
     private boolean flagged;
     private boolean caseMinee;
     private boolean revelee;
+    private boolean perdu;
     private int lin, col;
     private ImageIcon mine = new ImageIcon(this.getClass().getResource("mine.gif"));
     private ImageIcon flag = new ImageIcon(this.getClass().getResource("flag.gif"));
-    
+    private FenetreAffichage fenetre;
+
     public BoutonCase(int lin, int col,
-            boolean[][] casesMinees, int[][] nbBombesVoisines) {
+            boolean[][] casesMinees, int[][] nbBombesVoisines, FenetreAffichage fenetre) {
         super();
         this.lin = lin;
         this.col = col;
@@ -27,7 +28,8 @@ public class BoutonCase extends JButton implements MouseListener {
         this.nbMinesVoisines = nbBombesVoisines[lin][col];
         this.pointInterrogation = false;
         this.flagged = false;
-        
+        this.perdu = false;
+        this.fenetre = fenetre;
         addMouseListener(this);
     }
 
@@ -38,42 +40,41 @@ public class BoutonCase extends JButton implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         BoutonCase caseCliquee = (BoutonCase) e.getSource();
+
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (!this.revelee && !this.flagged) {
                 if (this.caseMinee) {
-                    Image img = mine.getImage() ;
-                    Image newimg = img.getScaledInstance( 50, 50,  java.awt.Image.SCALE_SMOOTH ) ;  
-                    mine = new ImageIcon( newimg );
+                    Image img = mine.getImage();
+                    Image newimg = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+                    mine = new ImageIcon(newimg);
                     this.setIcon(mine);
-                }
-                else {
+                    this.fenetre.afficheMessagePerdu();
+                } else {
                     this.setText("" + this.nbMinesVoisines);
                 }
-                caseCliquee.revelee = true ;
+                caseCliquee.revelee = true;
             }
-        }
-        else {
+        } else {
             if (e.getButton() == MouseEvent.BUTTON3 && !this.revelee) {
                 if (!this.pointInterrogation && !this.flagged) {
-                    Image img = flag.getImage() ;
-                    Image newimg = img.getScaledInstance( 50, 50,  java.awt.Image.SCALE_SMOOTH ) ;  
-                    flag = new ImageIcon( newimg );
+                    Image img = flag.getImage();
+                    Image newimg = img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+                    flag = new ImageIcon(newimg);
                     this.setIcon(flag);
-                    this.flagged = true ;
-                }
-                else if (this.flagged) {
+                    this.flagged = true;
+                } else if (this.flagged) {
                     this.setIcon(null);
                     this.setText("?");
                     this.pointInterrogation = true;
-                    this.flagged = false ;
-                }  
-                else if (this.pointInterrogation) {
+                    this.flagged = false;
+                } else if (this.pointInterrogation) {
                     this.setText("");
                     this.pointInterrogation = false;
                 }
-                
+
             }
         }
+
         validate();
         revalidate();
     }
@@ -88,5 +89,5 @@ public class BoutonCase extends JButton implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-    }   
+    }
 }

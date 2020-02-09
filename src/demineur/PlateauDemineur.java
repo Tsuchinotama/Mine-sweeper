@@ -47,14 +47,6 @@ public class PlateauDemineur
         this.nbBombesVoisines = createPlateauNbBombesVoisines();
         
         this.casesPlateau = new BoutonCase[nbLignes][nbLignes];
-        for (int i=0; i<nbLignes; i++)
-        {
-            for (int j=0; j<nbLignes; j++)
-            {
-                (this.casesPlateau)[i][j] =new BoutonCase(i, j,
-                        this.casesMinees, this.nbBombesVoisines);;               
-            }
-        }
 
         for (boolean[] lignePlateau : this.casesMinees)
         {

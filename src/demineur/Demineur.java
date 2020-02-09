@@ -10,7 +10,7 @@ public class Demineur extends JInternalFrame
     private JPanel panneauChoix;
     private JInternalFrame fenetreChoix;
     
-    public static void main(String[] args) 
+    public static void start() 
     {   
         int nbMines;
         System.out.println("Rentrez le nombre de lignes de la grille : ");
