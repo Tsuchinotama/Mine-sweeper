@@ -13,6 +13,9 @@ public class BoutonCase extends JButton implements MouseListener {
     private boolean caseMinee;
     private boolean revelee;
     private boolean perdu;
+    private static int nbMines = FenetreAffichage.getNbMines();
+    private static int nbLignes = FenetreAffichage.getNbLignes();
+    private static int nbCasesDecouvertes = 0;
     private int lin, col;
     private ImageIcon mine = new ImageIcon(this.getClass().getResource("mine.gif"));
     private ImageIcon flag = new ImageIcon(this.getClass().getResource("flag.gif"));
@@ -30,6 +33,7 @@ public class BoutonCase extends JButton implements MouseListener {
         this.flagged = false;
         this.perdu = false;
         this.fenetre = fenetre;
+    
         addMouseListener(this);
     }
 
@@ -50,7 +54,11 @@ public class BoutonCase extends JButton implements MouseListener {
                     this.setIcon(mine);
                     this.fenetre.afficheMessagePerdu();
                 } else {
+                    nbCasesDecouvertes++;
                     this.setText("" + this.nbMinesVoisines);
+                    if (nbCasesDecouvertes == nbLignes * nbLignes - nbMines) {
+                        this.fenetre.afficheMessageGagne();
+                    }
                 }
                 caseCliquee.revelee = true;
             }
