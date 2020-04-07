@@ -4,9 +4,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import static java.util.Collections.shuffle;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
 public class PlateauDemineur {
 
     private int nbLignes, nbMines;

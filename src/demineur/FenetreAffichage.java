@@ -1,7 +1,6 @@
 package demineur;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 public class FenetreAffichage extends JFrame {
@@ -46,7 +45,8 @@ public class FenetreAffichage extends JFrame {
                 JOptionPane.QUESTION_MESSAGE);
         if (selectedOptionPerdu == JOptionPane.YES_OPTION) {
             this.dispose();
-            Demineur.start();
+            Demineur demineur = new Demineur();
+            demineur.start();
         } else {
             System.exit(0);
         }
@@ -60,7 +60,8 @@ public class FenetreAffichage extends JFrame {
                 JOptionPane.QUESTION_MESSAGE);
         if (selectedOptionGagne == JOptionPane.YES_OPTION) {
             this.dispose();
-            Demineur.start();
+            Demineur demineur = new Demineur();
+            demineur.start();
         } else {
             System.exit(0);
         }
