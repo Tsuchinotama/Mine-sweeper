@@ -38,7 +38,7 @@ public class Demineur implements ChangeListener, ActionListener {
         texteChoixNbLignes = new JLabel("Choisissez le nombre de lignes de votre grille");
         panneauChoixTailleGrille.add(texteChoixNbLignes);
 
-        nbLignesModelSpinner = new SpinnerNumberModel(10, 10, 25, 1);
+        nbLignesModelSpinner = new SpinnerNumberModel(10, 5, 25, 1);
         spinnerChoixNbLignes = new JSpinner(nbLignesModelSpinner);
         spinnerChoixNbLignes.addChangeListener(this);
         nbLignes = (int) spinnerChoixNbLignes.getValue();

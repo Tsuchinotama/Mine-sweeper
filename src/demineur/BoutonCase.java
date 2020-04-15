@@ -1,8 +1,8 @@
 package demineur;
 
-import java.awt.Image;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 
 public class BoutonCase extends JButton implements MouseListener {
@@ -33,7 +33,7 @@ public class BoutonCase extends JButton implements MouseListener {
         this.flagged = false;
         this.perdu = false;
         this.fenetre = fenetre;
-    
+        
         addMouseListener(this);
     }
 
@@ -55,7 +55,7 @@ public class BoutonCase extends JButton implements MouseListener {
                     this.fenetre.afficheMessagePerdu();
                 } else {
                     nbCasesDecouvertes++;
-                    this.setText("" + this.nbMinesVoisines);
+                    this.fenetre.afficheGroupeCasesVides(caseCliquee.lin, caseCliquee.col);
                     if (nbCasesDecouvertes == nbLignes * nbLignes - nbMines) {
                         this.fenetre.afficheMessageGagne();
                     }
